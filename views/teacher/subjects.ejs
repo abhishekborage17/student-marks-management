@@ -1,0 +1,74 @@
+<%- include('../partials/header', { title: 'Manage Subjects' }) %>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">📚 Manage Subjects</h4>
+                </div>
+                <div class="card-body">
+
+                    <!-- Class Selector -->
+                    <form method="GET" action="/teacher/subjects" class="mb-4">
+                        <label for="classId" class="form-label">Select Class:</label>
+                        <select name="classId" id="classId" class="form-select w-50 d-inline" onchange="this.form.submit()">
+                            <% classes.forEach(cls => { %>
+                                <option value="<%= cls._id %>" <%= cls._id.toString() === selectedClass?.toString() ? 'selected' : '' %>>
+                                    <%= cls.name %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </form>
+
+                    <!-- Add Subject -->
+                    <form action="/teacher/subjects/add" method="POST" class="row g-3 mb-4">
+                        <input type="hidden" name="classId" value="<%= selectedClass %>">
+                        <div class="col-md-8">
+                            <input type="text" name="name" class="form-control" placeholder="Subject Name" required>
+                        </div>
+                        <div class="col-md-4 d-grid">
+                            <button type="submit" class="btn btn-success">➕ Add Subject</button>
+                        </div>
+                    </form>
+
+                    <!-- Subject List -->
+                    <table class="table table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Subject Name</th>
+                                <th>Class</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% subjects.forEach(subject => { %>
+                                <% if (!selectedClass || subject.classId._id.toString() === selectedClass.toString()) { %>
+                                <tr>
+                                    <td><%= subject.name %></td>
+                                    <td><%= subject.classId.name %></td>
+                                    <td class="text-center">
+                                        <form action="/teacher/subjects/edit/<%= subject._id %>" method="POST" class="d-inline">
+                                            <input type="hidden" name="classId" value="<%= selectedClass %>">
+                                            <input type="text" name="name" value="<%= subject.name %>" class="form-control d-inline w-50" required>
+                                            <button class="btn btn-warning btn-sm">✏️</button>
+                                        </form>
+
+                                        <form action="/teacher/subjects/delete/<%= subject._id %>" method="POST" class="d-inline">
+                                            <input type="hidden" name="classId" value="<%= selectedClass %>">
+                                            <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this subject?')">🗑️</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <% } %>
+                            <% }) %>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,185 @@
+<%- include('../partials/header', { title: 'Portal' , userId: userId }) %>
+
+    <!-- Hero Section -->
+    <section class="text-center py-5 bg-light">
+        <div class="container-fluid px-4">
+            <h1 class="display-4 fw-bold text-muted">Student Marks Management System</h1>
+            <p class="lead text-muted">Your all-in-one academic portal — for Students, Teachers, and Admins.</p>
+
+            <% if (!userId) { %>
+                <div class="mt-4">
+                    <a href="/auth/login" class="btn btn-primary btn-lg me-2">Login</a>
+                    <a href="/auth/register" class="btn btn-outline-primary btn-lg">Register</a>
+                </div>
+                <% } else { %>
+                    <div class="mt-4">
+                        <a href="/<%= userRole %>/dashboard" class="btn btn-success btn-lg">Go to Dashboard</a>
+                    </div>
+                    <% } %>
+        </div>
+    </section>
+
+    <!-- Role Cards -->
+    <section class="container-fluid px-4 py-5">
+        <h2 class="text-center mb-4">What Can You Do?</h2>
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <i class="fas fa-user-graduate fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Students</h5>
+                        <p>Access grades, track attendance, and monitor your academic progress — all in one place.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <i class="fas fa-chalkboard-teacher fa-3x text-success mb-3"></i>
+                        <h5 class="card-title">Teachers</h5>
+                        <p>Record marks, manage subjects, and provide timely feedback to students and parents.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <i class="fas fa-user-shield fa-3x text-danger mb-3"></i>
+                        <h5 class="card-title">Admins</h5>
+                        <p>Maintain user accounts, oversee system settings, and generate academic reports.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="bg-white py-5">
+        <div class="container-fluid px-4">
+            <h2 class="text-center mb-4">Upcoming Events</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="alert alert-primary shadow-sm">
+                        <h5>📢 Parent-Teacher Meeting</h5>
+                        <p>June 15, 2025 — Discuss student progress and performance.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="alert alert-success shadow-sm">
+                        <h5>📚 Mid-Term Exams</h5>
+                        <p>Start on July 1, 2025 — Ensure students are prepared. Timetable will be shared soon.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="bg-light py-5">
+        <div class="container-fluid px-4">
+            <h2 class="text-center mb-4">Latest from Our Blog</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">5 Study Hacks for Students</h5>
+                            <p class="card-text text-muted">Improve concentration, memorize faster, and ace your exams
+                                with these tips.</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">How Teachers Can Engage Gen-Z</h5>
+                            <p class="card-text text-muted">Use digital tools and interactive techniques to boost
+                                engagement in classrooms.</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Why Admins Need Smart Dashboards</h5>
+                            <p class="card-text text-muted">Efficient tools save time and help keep school records
+                                accurate and safe.</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section with Lavender Background -->
+    <section class="bg-lavender py-5">
+        <div class="container-fluid px-4">
+            <h2 class="text-center mb-4 text-dark">Contact Us</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form id="contactForm" action="/contact" method="POST">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Your Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="email" name="email" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="msg" class="form-label">Message</label>
+                            <textarea class="form-control" id="msg" name="message" rows="4" required></textarea>
+                            <small id="wordCount" class="text-muted">0 / 30 words</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <%- include('../partials/footer') %>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <% if (submitted) { %>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thank you!',
+                    text: 'Your message has been sent successfully.',
+                    confirmButtonColor: '#3085d6'
+                });
+            </script>
+            <% } %>
+
+                <script>
+                    const msgInput = document.getElementById("msg");
+                    const wordCounter = document.getElementById("wordCount");
+                    const form = document.getElementById("contactForm");
+
+                    msgInput.addEventListener("input", () => {
+                        const words = msgInput.value.trim().split(/\s+/).filter(word => word.length > 0);
+                        wordCounter.textContent = `${words.length} / 30 words`;
+                        if (words.length > 30) {
+                            wordCounter.style.color = "red";
+                        } else {
+                            wordCounter.style.color = "gray";
+                        }
+                    });
+
+                    form.addEventListener("submit", function (e) {
+                        const words = msgInput.value.trim().split(/\s+/).filter(word => word.length > 0);
+                        if (words.length > 30) {
+                            e.preventDefault();
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Too Many Words',
+                                text: 'Please limit your message to 30 words.',
+                                confirmButtonColor: '#d33'
+                            });
+                        }
+                    });
+                </script>

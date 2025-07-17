@@ -1,0 +1,104 @@
+<%- include('../partials/header', { title: 'Manage Users' , userId: session.userId }) %>
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Manage Users</h2>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+            <i class="bi bi-person-plus-fill"></i> Add User
+        </button>
+    </div>
+
+    <table class="table table-hover table-bordered align-middle text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach((user, index)=> { %>
+                <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= user.name %></td>
+                    <td><%= user.email %></td>
+                    <td><span class="badge bg-secondary text-capitalize"><%= user.role %></span></td>
+                    <td>
+                        <a href="/admin/users/<%= user._id %>/edit" class="btn btn-sm btn-outline-info me-2">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete('<%= user._id %>', '<%= user.name %>')">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        <form id="delete-form-<%= user._id %>" action="/admin/users/<%= user._id %>/delete" method="POST" style="display: none;"></form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<!-- Add User Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="/admin/users" method="POST" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input name="name" type="text" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input name="email" type="email" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input name="password" type="password" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Role</label>
+                    <select name="role" class="form-select" required>
+                        <option value="">-- Select Role --</option>
+                        <option value="student">Student</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" type="submit">Add User</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function confirmDelete(userId, userName) {
+        Swal.fire({
+            title: `Delete ${userName}?`,
+            text: "This action cannot be undone!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`delete-form-${userId}`).submit();
+            }
+        });
+    }
+</script>
+
+<%- include('../partials/footer') %>

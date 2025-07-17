@@ -1,0 +1,94 @@
+
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+    }
+
+    .form-label {
+        font-weight: 600;
+    }
+</style>
+
+
+<%- include('../partials/header', { title: 'Manage Marks' }) %>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">📋 Manage Student Marks</h4>
+                </div>
+                <div class="card-body">
+
+                    <!-- Class Selection -->
+                    <form method="GET" action="/teacher/marks" class="row g-3 align-items-end mb-4">
+                        <div class="col-md-6">
+                            <label for="classId" class="form-label fw-semibold">Select Class:</label>
+                            <select name="classId" id="classId" class="form-select" onchange="this.form.submit()">
+                                <% classes.forEach(cls => { %>
+                                    <option value="<%= cls._id %>" <%= cls._id.toString() === selectedClass?.toString() ? 'selected' : '' %>>
+                                        <%= cls.name %>
+                                    </option>
+                                <% }) %>
+                            </select>
+                        </div>
+                    </form>
+
+                    <!-- Marks Entry Form -->
+                    <form method="POST" action="/teacher/marks">
+                        <input type="hidden" name="classId" value="<%= selectedClass %>">
+
+                        <div class="mb-4">
+                            <label for="subjectId" class="form-label fw-semibold">Select Subject:</label>
+                            <select name="subjectId" id="subjectId" class="form-select" required>
+                                <% subjects.forEach(subject => { %>
+                                    <option value="<%= subject._id %>"><%= subject.name %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">👨‍🎓 Student Name</th>
+                                        <th scope="col" style="width: 150px;">📝 Marks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% students.forEach(student => { %>
+                                        <tr>
+                                            <td><%= student.name %></td>
+                                            <td>
+                                                <input type="number" name="marks[<%= student._id %>]" class="form-control" min="0" max="100" required>
+                                            </td>
+                                        </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-success px-4 mt-3">💾 Save Marks</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

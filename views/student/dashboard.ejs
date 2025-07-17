@@ -1,0 +1,641 @@
+<%- include('../partials/header', { title: 'Student Dashboard', userId: session.userId }) %>
+
+<!-- Main Dashboard Container -->
+<div class="dashboard-container">
+    <!-- Welcome Section with Quick Stats -->
+    <div class="dashboard-header">
+        <div class="welcome-section">
+            <!-- <div class="user-greeting">
+                <h1>Welcome back, <span class="text-primary"><%= user.name %></span>!</h1>
+                <p class="role-badge"><%= user.role %></p>
+            </div> -->
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <div class="stat-icon bg-primary-light">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">5</span>
+                        <span class="stat-label">Active Subjects</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-success-light">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">3.8</span>
+                        <span class="stat-label">Current GPA</span>
+                    </div>
+                </div>
+                <!-- <div class="stat-card">
+                    <div class="stat-icon bg-warning-light">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">92%</span>
+                        <span class="stat-label">Attendance</span>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        
+        <div class="user-profile-mini">
+            <img src="/images/17.png" alt="<%= user.name %>" class="user-avatar">
+            <div class="profile-actions">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Content -->
+    <div class="dashboard-content">
+        <!-- Left Column -->
+        <div class="dashboard-main">
+            <!-- Upcoming Deadlines Section -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-calendar-day"></i> Upcoming Deadlines</h3>
+                    <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+                <div class="deadlines-list">
+                    <div class="deadline-item priority-high">
+                        <div class="deadline-date">
+                            <span class="day">15</span>
+                            <span class="month">JUN</span>
+                        </div>
+                        <div class="deadline-info">
+                            <h4>Math Assignment #3</h4>
+                            <p>Advanced Calculus Problems</p>
+                            <div class="deadline-meta">
+                                <span class="course-badge math">MATH 301</span>
+                                <span class="time-left">Due in 3 days</span>
+                            </div>
+                        </div>
+                        <div class="deadline-actions">
+                            <button class="btn btn-sm btn-primary">Submit</button>
+                        </div>
+                    </div>
+                    
+                    <div class="deadline-item priority-medium">
+                        <div class="deadline-date">
+                            <span class="day">18</span>
+                            <span class="month">JUN</span>
+                        </div>
+                        <div class="deadline-info">
+                            <h4>Physics Lab Report</h4>
+                            <p>Quantum Mechanics Experiment</p>
+                            <div class="deadline-meta">
+                                <span class="course-badge physics">PHYS 202</span>
+                                <span class="time-left">Due in 6 days</span>
+                            </div>
+                        </div>
+                        <div class="deadline-actions">
+                            <button class="btn btn-sm btn-outline-primary">Start</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Grades Section -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-chart-line"></i> Recent Grades</h3>
+                    <a href="/student/marks" class="btn btn-sm btn-outline-success">View All</a>
+                </div>
+                <div class="grades-summary">
+                    <div class="grade-chart">
+                        <canvas id="performanceChart" width="300" height="200"></canvas>
+                    </div>
+                    <div class="recent-grades">
+                        <div class="grade-item">
+                            <div class="course-info">
+                                <span class="course-badge math">MATH 301</span>
+                                <span class="assignment">Midterm Exam</span>
+                            </div>
+                            <div class="grade-value a">A</div>
+                        </div>
+                        <div class="grade-item">
+                            <div class="course-info">
+                                <span class="course-badge physics">PHYS 202</span>
+                                <span class="assignment">Lab Report #2</span>
+                            </div>
+                            <div class="grade-value b-plus">B+</div>
+                        </div>
+                        <div class="grade-item">
+                            <div class="course-info">
+                                <span class="course-badge literature">ENG 101</span>
+                                <span class="assignment">Research Paper</span>
+                            </div>
+                            <div class="grade-value a-minus">A-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="dashboard-sidebar">
+            <!-- Quick Actions -->
+            <div class="dashboard-card quick-actions-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                </div>
+                <div class="quick-actions-grid">
+                    <a href="/student/profile" class="action-btn">
+                        <div class="action-icon bg-primary">
+                            <i class="fas fa-user-edit"></i>
+                        </div>
+                        <span>Update Profile</span>
+                    </a>
+                    <a href="/student/marks" class="action-btn">
+                        <div class="action-icon bg-success">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <span>View Grades</span>
+                    </a>
+                    <a href="/student/courses" class="action-btn">
+                        <div class="action-icon bg-info">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <span>My Courses</span>
+                    </a>
+                    <a href="/student/attendance" class="action-btn">
+                        <div class="action-icon bg-warning">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <span>Attendance</span>
+                    </a>
+                    <a href="/student/notifications" class="action-btn">
+                        <div class="action-icon bg-danger">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <span>Notifications</span>
+                    </a>
+                    <a href="/auth/logout" class="action-btn">
+                        <div class="action-icon bg-secondary">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </div>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recent Notifications -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-bell"></i> Recent Notifications</h3>
+                    <a href="/student/notifications" class="btn btn-sm btn-outline-secondary">View All</a>
+                </div>
+                <div class="notifications-list">
+                    <div class="notification-item unread">
+                        <div class="notification-icon">
+                            <i class="fas fa-announcement text-danger"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>New Announcement</h4>
+                            <p>Math class canceled on Friday</p>
+                            <span class="notification-time">2 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <div class="notification-icon">
+                            <i class="fas fa-grade text-success"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Grade Posted</h4>
+                            <p>Your Physics lab grade is now available</p>
+                            <span class="notification-time">1 day ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
+
+<!-- Dashboard CSS -->
+<style>
+.dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+}
+
+.welcome-section h1 {
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.role-badge {
+    display: inline-block;
+    background: #2c3e50;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.quick-stats {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    min-width: 180px;
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 1.2rem;
+}
+
+.bg-primary-light { background: rgba(52, 152, 219, 0.1); color: #3498db; }
+.bg-success-light { background: rgba(46, 204, 113, 0.1); color: #2ecc71; }
+.bg-warning-light { background: rgba(241, 196, 15, 0.1); color: #f1c40f; }
+
+.stat-value {
+    font-size: 1.4rem;
+    font-weight: 600;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    display: block;
+}
+
+.user-profile-mini {
+    text-align: center;
+}
+
+.user-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.profile-actions {
+    margin-top: 10px;
+}
+
+.dashboard-content {
+    display: flex;
+    gap: 25px;
+}
+
+.dashboard-main {
+    flex: 2;
+}
+
+.dashboard-sidebar {
+    flex: 1;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.card-header h3 {
+    font-size: 1.2rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.deadlines-list {
+    padding: 10px;
+}
+
+.deadline-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.deadline-item:hover {
+    background: #f8f9fa;
+}
+
+.priority-high {
+    border-left: 4px solid #e74c3c;
+}
+
+.priority-medium {
+    border-left: 4px solid #f39c12;
+}
+
+.deadline-date {
+    text-align: center;
+    min-width: 50px;
+    margin-right: 15px;
+}
+
+.deadline-date .day {
+    font-size: 1.5rem;
+    font-weight: 600;
+    display: block;
+    line-height: 1;
+}
+
+.deadline-date .month {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #7f8c8d;
+}
+
+.deadline-info {
+    flex: 1;
+}
+
+.deadline-info h4 {
+    font-size: 1.1rem;
+    margin: 0 0 5px 0;
+}
+
+.deadline-info p {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin: 0 0 8px 0;
+}
+
+.deadline-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 0.8rem;
+}
+
+.course-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.75rem;
+}
+
+.course-badge.math { background: rgba(52, 152, 219, 0.1); color: #3498db; }
+.course-badge.physics { background: rgba(155, 89, 182, 0.1); color: #9b59b6; }
+.course-badge.literature { background: rgba(46, 204, 113, 0.1); color: #2ecc71; }
+
+.time-left {
+    color: #e74c3c;
+    font-weight: 500;
+}
+
+.deadline-actions {
+    margin-left: 15px;
+}
+
+.grades-summary {
+    display: flex;
+    padding: 15px;
+}
+
+.grade-chart {
+    flex: 1;
+    min-height: 200px;
+}
+
+.recent-grades {
+    flex: 1;
+    padding-left: 20px;
+}
+
+.grade-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.grade-item:last-child {
+    border-bottom: none;
+}
+
+.assignment {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+.grade-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    min-width: 40px;
+    text-align: center;
+}
+
+.grade-value.a { color: #2ecc71; }
+.grade-value.a-minus { color: #27ae60; }
+.grade-value.b-plus { color: #f1c40f; }
+
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 15px;
+}
+
+.action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 10px;
+    border-radius: 8px;
+    text-align: center;
+    color: #2c3e50;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    background: #f8f9fa;
+    transform: translateY(-3px);
+}
+
+.action-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.notifications-list {
+    padding: 10px;
+}
+
+.notification-item {
+    display: flex;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.notification-item:hover {
+    background: #f8f9fa;
+}
+
+.notification-item.unread {
+    background: rgba(52, 152, 219, 0.05);
+}
+
+.notification-icon {
+    font-size: 1.2rem;
+    margin-right: 15px;
+    color: #7f8c8d;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-content h4 {
+    font-size: 1rem;
+    margin: 0 0 5px 0;
+}
+
+.notification-content p {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin: 0 0 5px 0;
+}
+
+.notification-time {
+    font-size: 0.75rem;
+    color: #bdc3c7;
+}
+
+@media (max-width: 1200px) {
+    .dashboard-content {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .quick-stats {
+        flex-direction: column;
+    }
+    
+    .stat-card {
+        width: 100%;
+    }
+    
+    .grades-summary {
+        flex-direction: column;
+    }
+    
+    .recent-grades {
+        padding-left: 0;
+        padding-top: 20px;
+    }
+}
+</style>
+
+<!-- Chart.js Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Performance Chart
+    const ctx = document.getElementById('performanceChart').getContext('2d');
+    const performanceChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: ['Math', 'Physics', 'Chemistry', 'Literature', 'History'],
+            datasets: [{
+                label: 'Your Performance',
+                data: [85, 78, 92, 88, 76],
+                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderColor: 'rgba(52, 152, 219, 1)',
+                borderWidth: 2,
+                pointBackgroundColor: 'rgba(52, 152, 219, 1)',
+                pointRadius: 4
+            }, {
+                label: 'Class Average',
+                data: [72, 75, 80, 68, 74],
+                backgroundColor: 'rgba(155, 89, 182, 0.2)',
+                borderColor: 'rgba(155, 89, 182, 1)',
+                borderWidth: 2,
+                pointBackgroundColor: 'rgba(155, 89, 182, 1)',
+                pointRadius: 4
+            }]
+        },
+        options: {
+            scales: {
+                r: {
+                    angleLines: {
+                        display: true
+                    },
+                    suggestedMin: 50,
+                    suggestedMax: 100,
+                    ticks: {
+                        stepSize: 10
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                }
+            }
+        }
+    });
+});
+</script>

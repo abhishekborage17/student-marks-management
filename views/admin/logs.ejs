@@ -1,0 +1,31 @@
+<%- include('../partials/header', { title: 'Audit Logs', userId: session.userId }) %>
+
+<div class="container py-5">
+  <h2 class="mb-4">Audit Logs</h2>
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>User</th>
+        <th>Action</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (logs.length === 0) { %>
+        <tr>
+          <td colspan="3" class="text-center">No logs found.</td>
+        </tr>
+      <% } else { %>
+        <% logs.forEach(log => { %>
+          <tr>
+            <td><%= log.user %></td>
+            <td><%= log.action %></td>
+            <td><%= log.time.toLocaleString() %></td>
+          </tr>
+        <% }) %>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/footer') %>

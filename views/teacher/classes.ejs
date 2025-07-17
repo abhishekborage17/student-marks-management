@@ -1,0 +1,104 @@
+<%- include('../partials/header', { title: 'Manage Classes' }) %>
+<!-- ✅ SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">📚 Manage Classes</h4>
+                </div>
+                <div class="card-body">
+
+                    <!-- Add Class Form -->
+                    <form action="/teacher/classes/add" method="POST" class="row g-3 mb-4">
+                        <div class="col-md-9">
+                            <input type="text" name="name" class="form-control" placeholder="Enter new class name (e.g. 10th A)" required>
+                        </div>
+                        <div class="col-md-3 d-grid">
+                            <button type="submit" class="btn btn-success">➕ Add Class</button>
+                        </div>
+                    </form>
+
+                    <!-- Class List -->
+                    <table class="table table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Class Name</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% classes.forEach(cls => { %>
+                                <tr>
+                                    <td><%= cls.name %></td>
+                                    <td class="text-center">
+                                        <!-- Edit Form -->
+                                        <form id="editClassForm-<%= cls._id %>" action="/teacher/classes/edit/<%= cls._id %>" method="POST" class="d-inline edit-form">
+                                            <input type="text" name="name" value="<%= cls.name %>" class="form-control d-inline w-50 me-2" required>
+                                            <button type="button" class="btn btn-warning btn-sm edit-class-btn">✏️ Edit</button>
+                                        </form>
+
+                                        <!-- Delete Form -->
+                                        <form id="deleteClassForm-<%= cls._id %>" action="/teacher/classes/delete/<%= cls._id %>" method="POST" class="d-inline ms-2 delete-form">
+                                            <button type="button" class="btn btn-danger btn-sm delete-class-btn">🗑️ Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ SweetAlert2 Confirmation for Edit & Delete -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // ✏️ Edit Confirmation
+        document.querySelectorAll('.edit-class-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const form = this.closest('form');
+                Swal.fire({
+                    title: 'Confirm Edit',
+                    text: 'Are you sure you want to update this class name?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#aaa',
+                    confirmButtonText: 'Yes, update it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+
+        // 🗑️ Delete Confirmation
+        document.querySelectorAll('.delete-class-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const form = this.closest('form');
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "This will permanently delete the class.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#aaa',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+<%- include('../partials/footer') %>

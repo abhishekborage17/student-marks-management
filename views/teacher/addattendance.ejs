@@ -1,0 +1,57 @@
+<%- include('../partials/header', { title: 'Add Attendance' , userId: session.userId }) %>
+
+    <div class="container py-5">
+        <h2 class="mb-4">Add Student Attendance</h2>
+        <form method="POST" action="/teacher/attendance/add">
+            <div class="mb-3">
+                <label class="form-label">Student</label>
+                <select name="studentId" class="form-control" required>
+                    <% students.forEach(student=> { %>
+                        <option value="<%= student._id %>">
+                            <%= student.name %>
+                        </option>
+                        <% }) %>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Class</label>
+                <input type="text" name="className" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Month</label>
+                <input type="text" name="month" class="form-control" placeholder="e.g. June 2025" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Days Present (comma separated)</label>
+                <input type="text" name="daysPresent" class="form-control" placeholder="e.g. 1,2,5,6" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Total Days</label>
+                <input type="number" name="totalDays" class="form-control" required />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Attendance</button>
+        </form>
+    </div>
+
+    <!-- Include SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <% if (typeof success !=='undefined' && success) { %>
+        <script>
+            Swal.fire({
+                title: 'Attendance Saved!',
+                text: 'The attendance record has been successfully added.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = '/teacher/attendance/add'; // reload page to clear form
+            });
+        </script>
+        <% } %>
+
+            <%- include('../partials/footer') %>

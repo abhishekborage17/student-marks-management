@@ -1,0 +1,92 @@
+<%- include('../partials/header', { title: 'Register', userId: session.userId }) %>
+
+<style>
+    .register-wrapper {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(to right, #e0f7fa, #e1f5fe);
+    }
+
+    .register-card {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        width: 100%;
+        max-width: 450px;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 12px;
+    }
+
+    .btn-primary {
+        border-radius: 12px;
+        padding: 10px;
+        font-weight: bold;
+        background: #6f42c1;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background: #5936a9;
+    }
+
+    .text-muted a {
+        text-decoration: none;
+    }
+
+    .text-muted a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="register-wrapper">
+    <div class="register-card">
+        <h2 class="text-center mb-4">Create an Account 📝</h2>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-danger">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <form action="/auth/register" method="POST">
+            <div class="mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <input name="name" type="text" class="form-control" id="name" placeholder="Enter your name" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input name="email" type="email" class="form-control" id="email" placeholder="Enter your email" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input name="password" type="password" class="form-control" id="password" placeholder="Enter password" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="role" class="form-label">Select Role</label>
+                <select name="role" class="form-select" id="role" required>
+                    <option value="">Choose Role</option>
+                    <option value="student">Student</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mt-2">Register</button>
+        </form>
+
+        <p class="text-center mt-3 text-muted">
+            Already have an account? <a href="/auth/login">Login here</a>
+        </p>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

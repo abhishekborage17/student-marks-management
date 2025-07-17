@@ -1,0 +1,49 @@
+<%- include('./partials/header', { title: 'Page Not Found' }) %>
+
+<style>
+  .not-found-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .not-found-emoji {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+  }
+
+  .btn-home {
+    border-radius: 30px;
+    font-weight: 600;
+    padding: 10px 24px;
+    font-size: 1.1rem;
+  }
+</style>
+
+<div class="not-found-container container py-5">
+  <div class="not-found-emoji">🧐🤔😵</div>
+  <h1 class="display-4 text-danger">404 - Lost in Space</h1>
+  <p class="lead mt-3">
+    Looks like you've taken a wrong turn somewhere... <br>
+    Maybe the page got eaten by aliens 👽 or it's just hiding from you 🫣.
+  </p>
+  <a href="/" class="btn btn-primary btn-home mt-4">
+    🚀 Beam Me Home
+  </a>
+</div>
+
+<%- include('./partials/footer') %>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const emoji = document.querySelector('.not-found-emoji');
+    emoji.classList.add('animate__animated', 'animate__bounce');
+  });

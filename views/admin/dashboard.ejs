@@ -1,0 +1,98 @@
+<%- include('../partials/header', { title: 'Admin Dashboard', userId: session.userId }) %>
+
+<style>
+  body {
+    background: #f7f9fc;
+    color: #343a40;
+  }
+
+  .card {
+    border-radius: 1rem;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .dashboard-icon {
+    font-size: 2.5rem;
+    color: #0d6efd;
+  }
+
+  .card h5 {
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+
+  .card p {
+    color: #6c757d;
+    font-size: 0.95rem;
+  }
+
+  .btn {
+    border-radius: 50px;
+    font-weight: 500;
+    padding: 0.5rem 1.2rem;
+  }
+
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .dashboard-header h2 {
+    font-weight: 700;
+    font-size: 2rem;
+  }
+
+  .admin-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  }
+</style>
+
+<div class="container-fluid px-4 py-5">
+  <div class="dashboard-header">
+    <div>
+      <h2>Welcome, Admin 👑</h2>
+      <p class="text-muted">Manage and monitor your system efficiently.</p>
+    </div>
+    <img src="/images/1.png" alt="Admin Avatar" class="admin-avatar">
+  </div>
+
+  <% const tiles = [
+    { icon: 'bi-people-fill', title: 'Manage Users', desc: 'Handle student, teacher, and admin accounts.', href: '/admin/users' },
+    { icon: 'bi-envelope-paper', title: 'Contact Messages', desc: 'View messages submitted via contact form.', href: '/admin/contact-messages' },
+    { icon: 'bi-gear-fill', title: 'System Settings', desc: 'Manage application-wide settings.', href: '/admin/settings' },
+    { icon: 'bi-bar-chart-fill', title: 'Reports & Analytics', desc: 'Track system performance and insights.', href: '/admin/reports' },
+    { icon: 'bi-clipboard-data', title: 'Audit Logs', desc: 'Review user actions like logins, edits, and deletions.', href: '/admin/logs' },
+    { icon: 'bi-person-lock', title: 'Manage Roles', desc: 'Assign or modify user role access.', href: '/admin/roles' },
+    { icon: 'bi-cloud-arrow-down-fill', title: 'Backup & Restore', desc: 'Backup or restore critical data.', href: '/admin/backup' }
+  ]; %>
+
+  <div class="row g-4">
+    <% tiles.forEach(tile => { %>
+      <div class="col-md-6 col-lg-4">
+        <div class="card border-0 shadow h-100 text-center">
+          <div class="card-body">
+            <i class="bi <%= tile.icon %> dashboard-icon mb-3"></i>
+            <h5><%= tile.title %></h5>
+            <p><%= tile.desc %></p>
+            <a href="<%= tile.href %>" class="btn btn-outline-primary">Go</a>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

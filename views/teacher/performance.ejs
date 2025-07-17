@@ -1,0 +1,75 @@
+<%- include('../partials/header', { title: 'Class Performance' }) %>
+
+<div class="container py-5">
+    <div class="card shadow">
+        <div class="card-header bg-warning text-dark">
+            <h4>📊 Class Performance Report</h4>
+        </div>
+        <div class="card-body">
+
+            <form method="GET" action="/teacher/performance" class="row g-3 mb-4">
+                <div class="col-md-5">
+                    <label class="form-label">Select Class:</label>
+                    <select name="classId" class="form-select" required>
+                        <% classes.forEach(cls => { %>
+                            <option value="<%= cls._id %>" <%= cls._id.toString() === selectedClass ? 'selected' : '' %>>
+                                <%= cls.name %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="col-md-5">
+                    <label class="form-label">Select Subject:</label>
+                    <select name="subjectId" class="form-select" required>
+                        <% subjects.forEach(subject => { %>
+                            <option value="<%= subject._id %>" <%= subject._id.toString() === selectedSubject ? 'selected' : '' %>>
+                                <%= subject.name %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="col-md-2 d-grid align-items-end">
+                    <button type="submit" class="btn btn-primary">View</button>
+                </div>
+            </form>
+
+            <% if (stats) { %>
+                <div class="mb-4">
+                    <h5>Summary:</h5>
+                    <ul>
+                        <li><strong>Average Marks:</strong> <%= stats.average %></li>
+                        <li><strong>Highest Marks:</strong> <%= stats.highest %></li>
+                        <li><strong>Lowest Marks:</strong> <%= stats.lowest %></li>
+                    </ul>
+                </div>
+
+                <h5>📋 Student Breakdown</h5>
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>Roll No</th>
+                            <th>Marks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% studentMarks.forEach(student => { %>
+                            <tr>
+                                <td><%= student.name %></td>
+                                <td><%= student.rollNumber %></td>
+                                <td><%= student.marks %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <p class="text-muted">Please select a class and subject to view performance.</p>
+            <% } %>
+
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
