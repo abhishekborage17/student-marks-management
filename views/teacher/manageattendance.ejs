@@ -1,7 +1,9 @@
 <%- include('../partials/header', { title: 'Manage Attendance' , userId: session.userId }) %>
 
-    <div class="container py-5">
-        <h2 class="mb-4">All Attendance Records</h2>
+<div class="container py-5">
+    <h2 class="mb-4">All Attendance Records</h2>
+
+    <div class="table-responsive">
         <table class="table table-bordered table-hover table-striped">
             <thead class="table-dark">
                 <tr>
@@ -15,76 +17,63 @@
                 </tr>
             </thead>
             <tbody>
-                <% records.forEach(record=> { %>
+                <% records.forEach(record => { 
+                    if (record.studentId) { %>
                     <tr>
-                        <td>
-                            <%= record.studentId.name %>
-                        </td>
-                        <td>
-                            <%= record.className %>
-                        </td>
-                        <td>
-                            <%= record.month %>
-                        </td>
-                        <td>
-                            <%= record.daysPresent.length %>
-                        </td>
-                        <td>
-                            <%= record.totalDays %>
-                        </td>
-                        <td>
-                            <%= ((record.daysPresent.length / record.totalDays) * 100).toFixed(2) %>%
-                        </td>
+                        <td><%= record.studentId.name %></td>
+                        <td><%= record.className %></td>
+                        <td><%= record.month %></td>
+                        <td><%= record.daysPresent.length %></td>
+                        <td><%= record.totalDays %></td>
+                        <td><%= ((record.daysPresent.length / record.totalDays) * 100).toFixed(2) %>%</td>
                         <td>
                             <a href="/teacher/attendance/edit/<%= record._id %>" class="btn btn-sm btn-warning">Edit</a>
-
-                            <form method="POST" action="/teacher/attendance/delete/<%= record._id %>"
-                                class="d-inline delete-form">
+                            <form method="POST" action="/teacher/attendance/delete/<%= record._id %>" class="d-inline delete-form">
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                             </form>
                         </td>
                     </tr>
-                    <% }) %>
+                <% } }) %>
             </tbody>
         </table>
     </div>
+</div>
 
-    <!-- SweetAlert2 CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
-        // Delete confirmation
-        document.querySelectorAll('.delete-form').forEach(form => {
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "This record will be deleted!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
+<script>
+    // Delete confirmation
+    document.querySelectorAll('.delete-form').forEach(form => {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This record will be deleted!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
             });
         });
+    });
+</script>
 
-  // Flash success message
-    </script>
-    <% if (success_msg) { %>
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: "<%= success_msg %>",
-            timer: 2000,
-            showConfirmButton: false
-        });
-    </script>
-    <% } %>
+<% if (typeof success_msg !== 'undefined' && success_msg && success_msg !== true) { %>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: "<%= success_msg %>",
+        timer: 2000,
+        showConfirmButton: false
+    });
+</script>
+<% } %>
 
-    <%- include('../partials/footer') %>
+<%- include('../partials/footer') %>

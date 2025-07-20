@@ -5,11 +5,19 @@ const User = require("../models/User"); // Assuming User model exists
 exports.getAllAttendance = async (req, res) => {
   try {
     const records = await Attendance.find().populate("studentId", "name role");
-    res.render("teacher/manageattendance", { records });
+    const validRecords = records.filter(record => record.studentId !== null);
+    
+    const success_msg = req.flash("success_msg")[0]; // get first flash msg or undefined
+
+    res.render("teacher/manageattendance", {
+      records: validRecords,
+      success_msg
+    });
   } catch (err) {
     res.status(500).send("Error fetching attendance");
   }
 };
+
 
 // Render form to add attendance
 exports.renderAddForm = async (req, res) => {
